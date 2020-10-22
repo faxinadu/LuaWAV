@@ -1,5 +1,5 @@
 ----------------------------------------------------------------------------------------------------
--- LUA Wav
+-- Creator Tools LUA Wav
 ----------------------------------------------------------------------------------------------------
 
 --[[
@@ -11,7 +11,7 @@
 
 	Modified by Yaron Eshar and Mario Kurselj @ Native Instruments
 	Added the functions listed after the modify date, added ability to read all chunks, added parsing of smpl chunk, added ability to read more wave formats.
-	Modified: September 30, 2020
+	Modified: October 22, 2020
 ]]
 
 wav = {
