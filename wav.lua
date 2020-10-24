@@ -171,9 +171,7 @@ wav = {
 			end
 
 			file_size = file:read(4)
-
 			assert(file_size,"File header incomplete!")
-
 			file_size = math.floor(bton(file_size) + 8)
 
 			if file:read(4) ~= "WAVE" then
@@ -205,35 +203,25 @@ wav = {
 					local bytes = file:read(2)
 
 					format_bytes = math.floor(bton(bytes))
-
+					
 					bytes = file:read(2)
-
 					assert(bytes, "Channel info not found!")
-
 					channels_number = math.floor(bton(bytes))
 
 					bytes = file:read(4)
-
 					assert(bytes, "Sample rate info not found!")
-					
 					sample_rate = math.floor(bton(bytes))
 
 					bytes = file:read(4)
-
 					assert(bytes, "Average bytes per second info not found!")
-
 					byte_rate = math.floor(bton(bytes))
 
 					bytes = file:read(2)
-
 					assert(bytes, "Block align info not found!")
-
 					block_align = math.floor(bton(bytes))
 
 					bytes = file:read(2)
-
 					assert(bytes, "Bits per sample info not found!")
-
 					bits_per_sample = math.floor(bton(bytes))
 
 					if bits_per_sample ~= 8 and bits_per_sample ~= 16 and bits_per_sample ~= 24 and bits_per_sample ~= 32 then
@@ -271,57 +259,40 @@ wav = {
 					local bytes = file:read(4)
 
 					assert(bytes, "Manufacturer info not found!")
-
 					manufacturer = math.floor(bton(bytes))
 
 					bytes = file:read(4)
-
 					assert(bytes, "Product info not found!")
-
 					product = math.floor(bton(bytes))
 
 					bytes = file:read(4)
-
 					assert(bytes, "Sample period info not found!")
-
 					sample_period = math.floor(bton(bytes))
 
 					bytes = file:read(4)
-
 					assert(bytes, "MIDI root note info not found!")
-
 					midi_root = math.floor(bton(bytes))
 
 					bytes = file:read(4)
-
 					assert(bytes, "MIDI pitch fraction info not found!")
-
 					midi_pitch = bton(bytes)
 
 					bytes = file:read(4)
-
 					assert(bytes, "SMPTE format info not found!")
-
 					smpte_format = math.floor(bton(bytes))
 
 					bytes = file:read(4)
-
 					assert(bytes, "SMPTE offset info not found!")
-
 					smpte_offset = math.floor(bton(bytes))
 
 					loop_count_position = file:seek()
 
 					bytes = file:read(4)
-
 					assert(bytes, "Loop count info not found!")
-
 					num_loops = math.floor(bton(bytes))
 
 					bytes = file:read(4)
-
 					assert(bytes, "Sampler loop data info not found!")
-
 					sampler_data = math.floor(bton(bytes))
 
 					if num_loops > 0 then
@@ -343,49 +314,32 @@ wav = {
 							table.insert(loop_cue_position, file:seek())
 
 							bytes = file:read(4)
-
 							assert(bytes, "Loop Cue not found!")
-
 							table.insert(loop_cue, math.floor(bton(bytes)))
-
 							table.insert(loop_type_position,file:seek())
 
 							bytes = file:read(4)
-
 							assert(bytes, "Loop Type not found!")
-
 							table.insert(loop_type, math.floor(bton(bytes)))
-
 							table.insert(loop_start_position, file:seek())
 
 							bytes = file:read(4)
-
 							assert(bytes, "Loop Start not found!")
-
 							table.insert(loop_start, math.floor(bton(bytes)))
-
 							table.insert(loop_end_position, file:seek())
 
 							bytes = file:read(4)
-
 							assert(bytes, "Loop End not found!")
-
 							table.insert(loop_end, math.floor(bton(bytes)))
-
 							table.insert(loop_fraction_position,file:seek())
 
 							bytes = file:read(4)
-
 							assert(bytes, "Loop Fraction not found!")
-
 							table.insert(loop_fraction, math.floor(bton(bytes)))
-
 							table.insert(loop_times_position,file:seek())
 
 							bytes = file:read(4)
-
 							assert(bytes, "Loop Times not found!")
-
 							table.insert(loop_times, math.floor(bton(bytes)))
 						end
 					end
@@ -436,12 +390,10 @@ wav = {
 					chunk_size_extra = chunk_size_extra + chunk_size
 					file:seek("cur", chunk_size)
 					-- break -- we won't be reading any other chunks after this one
-				
 				end
 			end
 
 			-- Enough information available?
-
 			assert(bits_per_sample, "No format information found!")
 
 			-- Return audio handler
