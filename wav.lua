@@ -172,9 +172,7 @@ wav = {
 
 			file_size = file:read(4)
 
-			if not file_size then
-				error("File header incomplete!")
-			end
+			assert(file_size,"File header incomplete!")
 
 			file_size = math.floor(bton(file_size) + 8)
 
@@ -190,7 +188,6 @@ wav = {
 				chunk_id, chunk_size = file:read(4), file:read(4)
 
 				if not chunk_size then
-					-- error("Chunk "..chunk_id.. " is empty!", 2)
 					break
 				end
 
@@ -211,37 +208,32 @@ wav = {
 
 					bytes = file:read(2)
 
-					if not bytes then
-						error("Channel info not found!", 2)
-					end
+					assert(bytes, "Channel info not found!")
+
 					channels_number = math.floor(bton(bytes))
 
 					bytes = file:read(4)
 
-					if not bytes then
-						error("Sample rate info not found!", 2)
-					end
+					assert(bytes, "Sample rate info not found!")
+					
 					sample_rate = math.floor(bton(bytes))
 
 					bytes = file:read(4)
 
-					if not bytes then
-						error("Average bytes per second info not found!", 2)
-					end
+					assert(bytes, "Average bytes per second info not found!")
+
 					byte_rate = math.floor(bton(bytes))
 
 					bytes = file:read(2)
 
-					if not bytes then
-						error("Block align info not found!", 2)
-					end
+					assert(bytes, "Block align info not found!")
+
 					block_align = math.floor(bton(bytes))
 
 					bytes = file:read(2)
 
-					if not bytes then
-						error("Bits per sample info not found!")
-					end
+					assert(bytes, "Bits per sample info not found!")
+
 					bits_per_sample = math.floor(bton(bytes))
 
 					if bits_per_sample ~= 8 and bits_per_sample ~= 16 and bits_per_sample ~= 24 and bits_per_sample ~= 32 then
@@ -254,10 +246,7 @@ wav = {
 					chunk_size_data = chunk_size
 					chunk_position_data = file:seek()-8
 
-					-- Read samples
-					if not block_align then
-						error("Format information chunk must be defined before sample data!", 2)
-					end
+					assert(block_align, "Format information chunk must be defined before sample data!")
 
 					samples_per_channel = math.floor(chunk_size / block_align)
 
@@ -281,56 +270,43 @@ wav = {
 					-- Read sample chunk information
 					local bytes = file:read(4)
 
-					if not bytes then
-						error("Manufacturer info not found!", 2)
-					end
+					assert(bytes, "Manufacturer info not found!")
+
 					manufacturer = math.floor(bton(bytes))
 
 					bytes = file:read(4)
 
-					if not bytes then
-						error("Product info not found!", 2)
-					end
+					assert(bytes, "Product info not found!")
 
 					product = math.floor(bton(bytes))
 
 					bytes = file:read(4)
 
-					if not bytes then
-						error("Sample period info not found!", 2)
-					end
+					assert(bytes, "Sample period info not found!")
 
 					sample_period = math.floor(bton(bytes))
 
 					bytes = file:read(4)
 
-					if not bytes then
-						error("MIDI root note info not found!", 2)
-					end
+					assert(bytes, "MIDI root note info not found!")
 
 					midi_root = math.floor(bton(bytes))
 
 					bytes = file:read(4)
 
-					if not bytes then
-						error("MIDI pitch fraction info not found!", 2)
-					end
+					assert(bytes, "MIDI pitch fraction info not found!")
 
 					midi_pitch = bton(bytes)
 
 					bytes = file:read(4)
 
-					if not bytes then
-						error("SMPTE format info not found!", 2)
-					end
+					assert(bytes, "SMPTE format info not found!")
 
 					smpte_format = math.floor(bton(bytes))
 
 					bytes = file:read(4)
 
-					if not bytes then
-						error("SMPTE offset info not found!", 2)
-					end
+					assert(bytes, "SMPTE offset info not found!")
 
 					smpte_offset = math.floor(bton(bytes))
 
@@ -338,17 +314,13 @@ wav = {
 
 					bytes = file:read(4)
 
-					if not bytes then
-						error("Loop count info not found!", 2)
-					end
+					assert(bytes, "Loop count info not found!")
 
 					num_loops = math.floor(bton(bytes))
 
 					bytes = file:read(4)
 
-					if not bytes then
-						error("Sampler loop data info not found!", 2)
-					end
+					assert(bytes, "Sampler loop data info not found!")
 
 					sampler_data = math.floor(bton(bytes))
 
@@ -372,9 +344,7 @@ wav = {
 
 							bytes = file:read(4)
 
-							if not bytes then
-								error("Loop Cue not found!", 2)
-							end
+							assert(bytes, "Loop Cue not found!")
 
 							table.insert(loop_cue, math.floor(bton(bytes)))
 
@@ -382,9 +352,7 @@ wav = {
 
 							bytes = file:read(4)
 
-							if not bytes then
-								error("Loop Type not found!", 2)
-							end
+							assert(bytes, "Loop Type not found!")
 
 							table.insert(loop_type, math.floor(bton(bytes)))
 
@@ -392,9 +360,7 @@ wav = {
 
 							bytes = file:read(4)
 
-							if not bytes then
-								error("Loop Start not found!", 2)
-							end
+							assert(bytes, "Loop Start not found!")
 
 							table.insert(loop_start, math.floor(bton(bytes)))
 
@@ -402,9 +368,7 @@ wav = {
 
 							bytes = file:read(4)
 
-							if not bytes then
-								error("Loop End not found!", 2)
-							end
+							assert(bytes, "Loop End not found!")
 
 							table.insert(loop_end, math.floor(bton(bytes)))
 
@@ -412,9 +376,7 @@ wav = {
 
 							bytes = file:read(4)
 
-							if not bytes then
-								error("Loop Fraction not found!", 2)
-							end
+							assert(bytes, "Loop Fraction not found!")
 
 							table.insert(loop_fraction, math.floor(bton(bytes)))
 
@@ -422,9 +384,7 @@ wav = {
 
 							bytes = file:read(4)
 
-							if not bytes then
-								error("Loop Times not found!", 2)
-							end
+							assert(bytes, "Loop Times not found!")
 
 							table.insert(loop_times, math.floor(bton(bytes)))
 						end
@@ -481,9 +441,8 @@ wav = {
 			end
 
 			-- Enough information available?
-			if not bits_per_sample then
-				error("No format information found!", 2)
-			end
+
+			assert(bits_per_sample, "No format information found!")
 
 			-- Return audio handler
 			local obj
@@ -734,9 +693,9 @@ wav = {
 				end,
 				get_samples = function(n)
 					local success, samples = pcall(obj.get_samples_interlaced, n)
-					if not success then
-						error(samples, 2)
-					end
+
+					assert(success, samples)
+	
 					local output, channel_samples = {n = channels_number}
 					for c=1, output.n do
 						channel_samples = {n = samples.n / channels_number}
